@@ -1,8 +1,23 @@
-# mssql/syncer
-`syncer.go` provides an interface to insert/update/delete MSSQL (based on mssql [driver]("https://github.com/denisenkom/go-mssqldb"))
-
 #### REQUIREMENT
 [TCP/IP enabled](http://www.manifold.net/doc/mfd9/enable_tcp_ip_for_sql_server.htm) in SQL Server Configuration Manager
+
+# store
+
+**`Store`** is a cronjob service that runs in short intervals to get "uncommitted" changes from MySQL to sync to MSSQL (via _syncer_)
+
+Internally _store_ uses **nutsdb** to capture all changes from MySQL (should being coming from the __mysql/parser__)
+
+**nutsdb pro:**
+- Embedded
+- Support other types of datastuctures that other dbs dont, _store_ uses `List` heavily
+
+**nutsdb cons:**
+- Default config for datafile size is 8MB, so we can't insert records that are bigger than this size, and we can't change this config after first run
+- A instance of `List` is always kept in memory (see `DB.ListIdx`), **so the tool may eat up all RAM if kept running for too long?**
+- `List` is not thread-safe, but it doesn't matter in our use-case (there's only one binlog & one running instance)
+
+# syncer
+`syncer.go` provides an interface to insert/update/delete MSSQL (based on mssql [driver]("https://github.com/denisenkom/go-mssqldb"))
 
 ---
 ### EXAMPLE
