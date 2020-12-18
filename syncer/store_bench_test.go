@@ -5,7 +5,14 @@ import (
 )
 
 func BenchmarkStoreInsert(b *testing.B) {
-	store := NewStore(DefaultStoreConfig)
+	cfg := DefaultStoreConfig
+	cfg.dbConfig.Dir = "./test"
+	cfg.interval = 1
+	cfg.models = map[string]interface{}{
+		"SyncerTest": &syncerTest{},
+		"StoreTest":  &storeTest{},
+	}
+	store := NewStore(cfg)
 	setUpStore(store)
 	defer tearDownStore(store)
 
@@ -25,7 +32,13 @@ func BenchmarkStoreInsert(b *testing.B) {
 
 func BenchmarkStoreRead(b *testing.B) {
 	b.StopTimer()
-	store := NewStore(DefaultStoreConfig)
+	cfg := DefaultStoreConfig
+	cfg.dbConfig.Dir = "./test"
+	cfg.models = map[string]interface{}{
+		"SyncerTest": &syncerTest{},
+		"StoreTest":  &storeTest{},
+	}
+	store := NewStore(cfg)
 	setUpStore(store)
 	defer tearDownStore(store)
 

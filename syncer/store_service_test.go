@@ -7,6 +7,8 @@ import (
 
 func TestStoreService(t *testing.T) {
 	cfg := DefaultStoreConfig
+	cfg.dbConfig.Dir = "./test"
+	cfg.interval = 1
 	cfg.models = map[string]interface{}{
 		"SyncerTest": &syncerTest{},
 		"StoreTest":  &storeTest{},
