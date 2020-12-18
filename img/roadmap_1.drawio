@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2020-12-18T13:19:25.234Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" etag="Z90oFcxx4k0Z77u_Vxzp" version="14.0.5" type="github">
+<mxfile host="app.diagrams.net" modified="2020-12-18T13:22:20.753Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" etag="CTuHpruNRtbeMRYfM5-h" version="14.0.5" type="github">
   <diagram id="PQCgGNhLhsKNh2j2jryg" name="Page-1">
     <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -61,13 +61,13 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="wb1LMAFxjqWtD9bHAhWX-24" value="" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/mscae/SQL_Servers.svg;" vertex="1" parent="wb1LMAFxjqWtD9bHAhWX-18">
-          <mxGeometry x="410" y="42.5" width="95" height="95" as="geometry" />
+          <mxGeometry x="400" y="42.5" width="95" height="95" as="geometry" />
         </mxCell>
         <mxCell id="wb1LMAFxjqWtD9bHAhWX-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="wb1LMAFxjqWtD9bHAhWX-18" source="wb1LMAFxjqWtD9bHAhWX-22" target="wb1LMAFxjqWtD9bHAhWX-24">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="wb1LMAFxjqWtD9bHAhWX-26" value="Server" style="swimlane;" vertex="1" parent="wb1LMAFxjqWtD9bHAhWX-18">
-          <mxGeometry width="380" height="160" as="geometry">
+          <mxGeometry x="-10" width="380" height="160" as="geometry">
             <mxRectangle x="110" y="200" width="70" height="23" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
@@ -86,8 +86,11 @@
         <mxCell id="wb1LMAFxjqWtD9bHAhWX-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Verdana;fontSize=20;" edge="1" parent="1" source="wb1LMAFxjqWtD9bHAhWX-32" target="wb1LMAFxjqWtD9bHAhWX-22">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="wb1LMAFxjqWtD9bHAhWX-32" value="&lt;font face=&quot;Helvetica&quot;&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;mismatch notifier: alert (email) users on record mismatch&lt;/span&gt;&lt;/font&gt;" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.worker;fillColor=#D9A741;gradientColor=none;fontFamily=Verdana;fontSize=20;" vertex="1" parent="1">
+        <mxCell id="wb1LMAFxjqWtD9bHAhWX-32" value="&lt;font face=&quot;Helvetica&quot;&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;watcher&lt;/span&gt;&lt;/font&gt;" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.worker;fillColor=#D9A741;gradientColor=none;fontFamily=Verdana;fontSize=20;" vertex="1" parent="1">
           <mxGeometry x="300" y="650" width="60" height="63" as="geometry" />
+        </mxCell>
+        <mxCell id="wb1LMAFxjqWtD9bHAhWX-36" value="&lt;ul&gt;&lt;li&gt;Watcher: send emails to users in case of:&lt;/li&gt;&lt;ul&gt;&lt;li&gt;MSSQL down&lt;/li&gt;&lt;li&gt;MySQL down&lt;/li&gt;&lt;li&gt;Mismatch happened between the 2 nodes&lt;/li&gt;&lt;/ul&gt;&lt;/ul&gt;" style="text;html=1;strokeColor=#36393d;fillColor=#eeeeee;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Verdana;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="19" y="750" width="790" height="130" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
