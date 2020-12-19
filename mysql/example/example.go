@@ -1,11 +1,23 @@
-package example
+package main
 
 import (
+	"crypto/tls"
+	"crypto/x509"
+	"fmt"
 	"gonnextor/mysql/parser"
+	"io/ioutil"
 	"time"
 
 	"github.com/siddontang/go-log/log"
 )
+
+// Remember, table name is case-sensitive, must match MySQL db exactly
+const (
+	schema     = "sakila"
+	staffTable = "Staff"
+)
+
+var models = parser.ModelMap{staffTable: &StaffModel{}}
 
 // StaffModel datamodel, note that fields must be public (to use with `reflect` package)
 type StaffModel struct {
@@ -21,18 +33,33 @@ type StaffModel struct {
 }
 
 func getDefaultConfig() parser.Config {
+	cer, err := tls.LoadX509KeyPair("client-cert.pem", "client-key.pem")
+	if err != nil {
+		panic(err)
+	}
+	serverCA, _ := ioutil.ReadFile("server-ca.pem")
+	rootCAPool := x509.NewCertPool()
+	rootCAPool.AppendCertsFromPEM(serverCA)
+
 	return parser.Config{
 		ServerID:          1,
-		Addr:              "127.0.0.1:3306",
+		Addr:              "35.240.181.214:3306",
 		User:              "root",
 		Password:          "root",
-		IncludeTableRegex: []string{"sakila\\.staff"}, // We only care table staff
+		IncludeTableRegex: []string{fmt.Sprintf("%s\\.%s", schema, staffTable)}, // We only care table staff
+		UseDecimal:        true,
+		TLSConfig: &tls.Config{
+			ServerName:   "mysql-to-mssql-syncer:a1", // <gcp-project-id>:<cloud-sql-instance>
+			Certificates: []tls.Certificate{cer},
+			RootCAs:      rootCAPool,
+		},
 	}
 }
 
 type mainHandler struct{}
 
 func (*mainHandler) OnInsert(schemaName string, tableName string, rec interface{}) {
+	// in reality, there should be somesort of switch-case tableName check here...
 	log.Infof("Inserting on table %s.%s\nvalues: %#v\n", schemaName, tableName, rec.(StaffModel))
 }
 
@@ -45,7 +72,7 @@ func (*mainHandler) OnDelete(schemaName string, tableName string, rec interface{
 }
 
 func main() {
-	wrapper := parser.NewEventWrapper(parser.ModelMap{"Staff": &StaffModel{}}, getDefaultConfig(), &mainHandler{})
+	wrapper := parser.NewEventWrapper(models, getDefaultConfig(), &mainHandler{})
 
 	defer wrapper.Close()
 	wrapper.StartBinlogListener()
