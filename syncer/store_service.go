@@ -27,15 +27,15 @@ func (s *Store) Schedule() (quit chan struct{}) {
 }
 
 func syncAllModels(s *Store, syncer *Syncer) {
-	var count int64
+
 	for table, model := range s.config.models {
+		var count int64
 		// TODO: make GetAll async
 		err := s.GetAll(table, model, func(rec *Record) bool {
 			if rec.Action == InsertAction {
 				res, err := syncer.Insert(table, rec.New)
 				if err != nil {
 					log.Printf("Store service - Insert error: %v\n", err)
-					// TODO: log or something
 					return false
 				}
 				ar, err := res.RowsAffected()
@@ -47,9 +47,11 @@ func syncAllModels(s *Store, syncer *Syncer) {
 			return false
 		})
 		// delete from store once success
-		if err != nil && count > 0 {
-			s.db.ListIdx[bucket].LRem(table, int(count))
+		if err == nil && count > 0 {
+			log.Printf("%v - Affect rows: %v\n", table, count)
+			if err := s.LRem(table, int(count)); err != nil {
+				log.Panicf("Error in removing synced records: %v", err)
+			}
 		}
 	}
-	log.Printf("\nAffect rows: %v\n", count)
 }

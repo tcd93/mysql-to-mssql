@@ -114,6 +114,13 @@ func (s *Store) GetAll(targetTable string, mappingModel interface{}, callback fu
 	})
 }
 
+// LRem remove List from left
+func (s *Store) LRem(targetTable string, count int) (err error) {
+	return s.db.Update(func(tx *nutsdb.Tx) error {
+		return tx.LRem(bucket, []byte(targetTable), count)
+	})
+}
+
 // LogInsert records the insert event into Store
 func (s *Store) LogInsert(targetTable string, model interface{}) error {
 
