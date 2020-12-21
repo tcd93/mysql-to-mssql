@@ -19,6 +19,7 @@ func (s *Store) Schedule() (quit chan struct{}) {
 				s.SyncAllModels(syncer, false)
 			case <-quit:
 				ticker.Stop()
+				syncer.Close()
 				return
 			}
 		}
@@ -64,9 +65,9 @@ func (s *Store) SyncAllModels(syncer *Syncer, isTest bool) {
 			}
 			return false
 		})
+		// log.Printf("%v - Affect rows: %v\n", table, count)
 		// delete from store once success
 		if err == nil && count > 0 && !isTest {
-			log.Printf("%v - Affect rows: %v\n", table, count)
 			if err := s.LRem(table, int(count)); err != nil {
 				log.Panicf("Error in removing synced records: %v", err)
 			}

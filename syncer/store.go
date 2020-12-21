@@ -229,11 +229,15 @@ func decodeBytes(input []byte, rec *Record) (err error) {
 	rec.Action = action
 
 	var v interface{}
-	if rec.New != nil {
+	if action == InsertAction || action == UpdateAction {
 		v, err = decode(dec, rec.New)
 		rec.New = v
 	}
-	if rec.Old != nil && action == UpdateAction {
+	if action == UpdateAction {
+		v, _ = decode(dec, rec.Old)
+		rec.Old = v
+	}
+	if action == DeleteAction {
 		v, err = decode(dec, rec.Old)
 		rec.Old = v
 	}
