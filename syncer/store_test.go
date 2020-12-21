@@ -212,8 +212,8 @@ func TestStoreDelete(t *testing.T) {
 	var retrievedModel = &storeTest{}
 	var count uint8
 	err = store.GetAll("StoreTest", retrievedModel, func(rec *Record) bool {
-		if reflect.DeepEqual(rec.New, r) == false {
-			t.Errorf("Difference in updated model & retrieved model: \n Expected: %v\n   Actual: %v", r, rec.New)
+		if reflect.DeepEqual(rec.Old, r) == false {
+			t.Errorf("Difference in updated model & retrieved model: \n Expected: %v\n   Actual: %v", r, rec.Old)
 		}
 		count++
 		return true
@@ -229,6 +229,6 @@ func TestStoreDelete(t *testing.T) {
 }
 
 type storeTest struct {
-	ID   int    `gorm:"column:id"`
+	ID   int    `gorm:"column:id;primaryKey"`
 	Name []byte `gorm:"column:name"`
 }

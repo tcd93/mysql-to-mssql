@@ -13,7 +13,7 @@ Internally _store_ uses **nutsdb** to capture all changes from MySQL (should bei
 
 **nutsdb cons:**
 - Default config for datafile size is 8MB, so we can't insert records that are bigger than this size, and we can't change this config after first run
-- A instance of `List` is always kept in memory (see `DB.ListIdx`), **so the tool may eat up all RAM if kept running for too long?**
+- A instance of `List` is always kept in memory (see `DB.ListIdx`), **so the tool may eat up all RAM if kept running for too long?** _(not likely to happen for small/medium projects)_
 - `List` is not thread-safe, but it doesn't matter in our use-case (there's only one binlog & one running instance)
 
 # syncer
