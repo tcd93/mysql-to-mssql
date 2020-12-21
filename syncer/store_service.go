@@ -72,6 +72,8 @@ func (s *Store) SyncAllModels(syncer *Syncer, isTest bool) {
 			if err := s.LRem(table, int(count)); err != nil {
 				log.Panicf("Error in removing synced records: %v", err)
 			}
+		} else if err != nil {
+			log.Printf("SyncAllModels error: %v", err.Error())
 		}
 	}
 }

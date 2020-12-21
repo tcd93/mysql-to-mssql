@@ -98,6 +98,9 @@ func (s *Syncer) UpdateOnPK(targetTable string, oldModel interface{}, newModel i
 
 	// get the values of primary columns to map to "where" part in statement
 	_, pks := getColumns(oldModel, true)
+	if len(pks) == 0 {
+		return nil, fmt.Errorf("primaryKey tag not defined in model of %v", targetTable)
+	}
 
 	return s.updateStmts[targetTable].Exec(append(newVals, pks...)...)
 }
@@ -123,6 +126,9 @@ func (s *Syncer) Delete(targetTable string, where string, conditions ...interfac
 // 	DeleteOnPK("table_name", model)
 func (s *Syncer) DeleteOnPK(targetTable string, model interface{}) (sql.Result, error) {
 	cols, pks := getColumns(model, true)
+	if len(pks) == 0 {
+		return nil, fmt.Errorf("primaryKey tag not defined in model of %v", targetTable)
+	}
 
 	if s.deleteStmts[targetTable] == nil {
 		stmt, err := s.db.Prepare(buildDeleteStatementFromPK(targetTable, cols))
