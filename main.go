@@ -6,8 +6,14 @@ import (
 	"gonnextor/syncer"
 )
 
-// define a which table name maps to which data model.
-// table name is case sensitive
+/* -------------- this section should be generated automatically -------------- */
+
+const (
+	// local directory to store messages
+	localDir = "D:/temp/nutsdb"
+)
+
+// define a which table name maps to which data model, table name is case sensitive
 var dataModels = syncer.ModelDefinitions{
 	"staff": &StaffModel{},
 }
@@ -22,55 +28,53 @@ func getMySQLConfig() parser.Config {
 	}
 }
 
-func getSQLServerConfig() syncer.TargetDbConfig {
-	return syncer.TargetDbConfig{
+func getSQLServerConfig() *syncer.TargetDbConfig {
+	return &syncer.TargetDbConfig{
 		Server:   "127.0.0.1",
 		Database: "gonnextor",
 		Log:      63,
 	}
 }
 
-var sync *syncer.Syncer
+/* -------------------------------- end automated code generation --------------------------------*/
+
+var store *syncer.Store
 
 type mainHandler struct{}
 
 func (*mainHandler) OnInsert(schemaName string, tableName string, rec interface{}) {
-	model := rec.(StaffModel)
-	// log.Infof("Inserting on table %s.%s\nvalues: %#v\n", table.Schema, table.Name, model)
-
-	// perform mssql sync on same table name
-	sync.Insert(tableName, model)
+	err := store.LogInsert(tableName, rec)
+	if err != nil {
+		fmt.Printf("Error during insert: %v\n", err.Error())
+	}
 }
 
 func (*mainHandler) OnUpdate(schemaName string, tableName string, oldRec interface{}, newRec interface{}) {
-	// oldModel := oldRec.(StaffModel)
-	newModel := newRec.(StaffModel)
-	oldModel := oldRec.(StaffModel)
-	// log.Infof("Updating on table %s.%s\nvalues: %#v\n", table.Schema, table.Name, newModel)
-
-	// _, err := sync.Update(tableName, newModel, "staff_id = ?", oldModel.StaffID)
-	_, err := sync.UpdateOnPK(tableName, oldModel, newModel)
+	err := store.LogUpdate(tableName, oldRec, newRec)
 	if err != nil {
 		fmt.Printf("Error during update: %v\n", err.Error())
 	}
 }
 
 func (*mainHandler) OnDelete(schemaName string, tableName string, rec interface{}) {
-	model := rec.(StaffModel)
-	// log.Infof("Deleting on table %s.%s\nvalues: %#v\n", table.Schema, table.Name, model)
-
-	// _, err := sync.Delete(tableName, "staff_id = ?", model.StaffID)
-	_, err := sync.DeleteOnPK(tableName, model)
+	err := store.LogDelete(tableName, rec)
 	if err != nil {
 		fmt.Printf("Error during delete: %v\n", err.Error())
 	}
 }
 
 func main() {
-	wrapper := parser.NewEventWrapper(dataModels, getMySQLConfig(), &mainHandler{})
+	storeCfg := syncer.DefaultStoreConfig
+	storeCfg.Models = dataModels
+	storeCfg.LocalDbConfig.Dir = localDir
+	storeCfg.TargetDbConfig = getSQLServerConfig()
 
-	sync = syncer.NewSyncer(getSQLServerConfig())
+	store = syncer.NewStore(storeCfg)
+	parser := parser.NewEventWrapper(dataModels, getMySQLConfig(), &mainHandler{})
 
-	defer wrapper.Close()
-	wrapper.StartBinlogListener()
+	store.Schedule()
+
+	defer parser.Close()
+	defer store.Close()
+	parser.StartBinlogListener()
 }
