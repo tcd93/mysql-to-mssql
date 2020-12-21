@@ -8,7 +8,7 @@ import (
 
 // define a which table name maps to which data model.
 // table name is case sensitive
-var dataModels = parser.ModelMap{
+var dataModels = syncer.ModelDefinitions{
 	"staff": &StaffModel{},
 }
 
@@ -22,8 +22,8 @@ func getMySQLConfig() parser.Config {
 	}
 }
 
-func getSQLServerConfig() syncer.Config {
-	return syncer.Config{
+func getSQLServerConfig() syncer.TargetDbConfig {
+	return syncer.TargetDbConfig{
 		Server:   "127.0.0.1",
 		Database: "gonnextor",
 		Log:      63,

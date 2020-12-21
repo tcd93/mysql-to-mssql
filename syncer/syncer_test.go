@@ -142,7 +142,7 @@ func TestSyncerInsertTable(t *testing.T) {
 		Blob:   []byte("binary stuff"),
 		Binary: &varbin,
 	}
-	cfg := Config{
+	cfg := TargetDbConfig{
 		Server:   "127.0.0.1",
 		Database: "gonnextor",
 		Log:      63,
@@ -167,7 +167,7 @@ func TestSyncerInsertTable(t *testing.T) {
 
 func TestSyncerUpdateTable(t *testing.T) {
 
-	cfg := Config{
+	cfg := TargetDbConfig{
 		Server:   "127.0.0.1",
 		Database: "gonnextor",
 		Log:      63,
@@ -202,7 +202,7 @@ func TestSyncerUpdateTable(t *testing.T) {
 
 func TestSyncerUpdateTableWithPK(t *testing.T) {
 
-	cfg := Config{
+	cfg := TargetDbConfig{
 		Server:   "127.0.0.1",
 		Database: "gonnextor",
 		Log:      63,
@@ -263,7 +263,7 @@ func TestSyncerUpdateTableWithPK(t *testing.T) {
 
 func TestSyncerDeleteTable(t *testing.T) {
 
-	cfg := Config{
+	cfg := TargetDbConfig{
 		Server:   "127.0.0.1",
 		Database: "gonnextor",
 		Log:      63,
@@ -291,7 +291,7 @@ func TestSyncerDeleteTable(t *testing.T) {
 // test delete on non-matching pks
 func TestSyncerDeleteTableWithPK(t *testing.T) {
 
-	cfg := Config{
+	cfg := TargetDbConfig{
 		Server:   "127.0.0.1",
 		Database: "gonnextor",
 		Log:      63,
@@ -342,7 +342,7 @@ func TestSyncerInsertNullsToTable(t *testing.T) {
 	model := &syncerPointerTest{
 		ID: 1,
 	}
-	cfg := Config{
+	cfg := TargetDbConfig{
 		Server:   "127.0.0.1",
 		Database: "gonnextor",
 		Log:      63,

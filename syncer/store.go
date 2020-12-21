@@ -39,29 +39,27 @@ type ModelDefinitions = map[string]interface{}
 
 // StoreConfig config for the Log Store
 type StoreConfig struct {
-	dbConfig nutsdb.Options
+	LocalDbConfig nutsdb.Options
 	// run cronjob every X amount of time, note that if the job is still running
-	// when next interval arrives, it'll be put on hold until job is done
-	interval   int64
-	models     ModelDefinitions
-	syncConfig *Config
+	// when next Interval arrives, it'll be put on hold until job is done
+	Interval       int64
+	Models         ModelDefinitions
+	TargetDbConfig *TargetDbConfig
 }
 
 // DefaultStoreConfig default values
 var DefaultStoreConfig = &StoreConfig{
-	dbConfig: nutsdb.Options{
+	LocalDbConfig: nutsdb.Options{
 		EntryIdxMode:         nutsdb.HintKeyValAndRAMIdxMode,
 		SegmentSize:          8 * 1024 * 1024, //set to 8mb
 		NodeNum:              1,
 		RWMode:               nutsdb.FileIO,
 		SyncEnable:           true,
 		StartFileLoadingMode: nutsdb.MMap,
-		Dir:                  "D:/temp/nutsdb",
 	},
-	interval: 2,
-	syncConfig: &Config{
-		Server:   "127.0.0.1",
-		Database: "gonnextor",
+	Interval: 1,
+	TargetDbConfig: &TargetDbConfig{
+		Server: "127.0.0.1",
 	},
 }
 
@@ -73,10 +71,20 @@ type Store struct {
 
 // NewStore inits new instance of Store with default options.
 func NewStore(cfg *StoreConfig) *Store {
-	if len(cfg.models) == 0 {
-		panic("Please define model definitions in config")
+	if len(cfg.Models) == 0 {
+		panic("Please define model definitions in config (StoreConfig.Models)")
 	}
-	db, err := nutsdb.Open(cfg.dbConfig)
+	if cfg.LocalDbConfig.Dir == "" {
+		panic("Please define local database's directory (StoreConfig.LocalDbConfig.Dir)")
+	}
+	if cfg.TargetDbConfig.Database == "" {
+		panic("Please define target database (StoreConfig.TargetDbConfig.Database)'")
+	}
+	if cfg.TargetDbConfig.Server == "127.0.0.1" {
+		log.Println("Setting target database to localhost...")
+	}
+
+	db, err := nutsdb.Open(cfg.LocalDbConfig)
 	if err != nil {
 		log.Fatal("NewStore error: ", err)
 	}

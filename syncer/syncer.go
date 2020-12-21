@@ -8,8 +8,8 @@ import (
 	_ "github.com/denisenkom/go-mssqldb" //driver for MSSQL, to work with "database/sql" package
 )
 
-// Config object for mssql syncer
-type Config struct {
+// TargetDbConfig object for mssql syncer
+type TargetDbConfig struct {
 	//example: "127.0.0.1"
 	Server string
 	//example: "db215"
@@ -38,7 +38,7 @@ type Config struct {
 
 // Syncer wrapper, uses go-mssqldb underneath
 type Syncer struct {
-	cfg         Config
+	cfg         TargetDbConfig
 	db          *sql.DB
 	insertStmts map[string]*sql.Stmt
 	updateStmts map[string]*sql.Stmt
@@ -143,7 +143,7 @@ func (s *Syncer) Close() {
 }
 
 // NewSyncer returns new instance of Syncer, should be called only once
-func NewSyncer(cfg Config) *Syncer {
+func NewSyncer(cfg TargetDbConfig) *Syncer {
 	var connectStringBuilder strings.Builder
 	connectStringBuilder.Grow(50)
 	// server

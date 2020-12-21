@@ -65,13 +65,13 @@ func TestStoreService(t *testing.T) {
 	clearDir(dataFileTestDir)
 
 	cfg := DefaultStoreConfig
-	cfg.dbConfig.SegmentSize = 1024
-	cfg.dbConfig.Dir = dataFileTestDir
-	cfg.models = map[string]interface{}{
+	cfg.LocalDbConfig.SegmentSize = 1024
+	cfg.LocalDbConfig.Dir = dataFileTestDir
+	cfg.Models = map[string]interface{}{
 		"StoreTest": &storeTest{},
 	}
 
-	syncer := NewSyncer(*cfg.syncConfig)
+	syncer := NewSyncer(*cfg.TargetDbConfig)
 	store := NewStore(cfg)
 	setUpData(store, t)
 	defer tearDownStore(store)
