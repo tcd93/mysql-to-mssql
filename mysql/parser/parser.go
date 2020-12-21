@@ -48,12 +48,14 @@ func getBinLogData(e *canal.RowsEvent, rowNum int, placeHolder interface{}) inte
 		if processNillable(field, e, rowNum, columnID) == false {
 			if processNonNil(field, e, rowNum, columnID) == false {
 				// json
-				if ok := parsedTag[2]; ok == "fromJson" {
-					newObject := reflect.New(fieldType).Interface()
-					json := getString(e, rowNum, columnID)
-					if json != nil {
-						jsoniter.Unmarshal([]byte(*json), &newObject)
-						field.Set(reflect.ValueOf(newObject).Elem().Convert(fieldType))
+				if len(parsedTag) > 2 {
+					if ok := parsedTag[2]; ok == "fromJson" {
+						newObject := reflect.New(fieldType).Interface()
+						json := getString(e, rowNum, columnID)
+						if json != nil {
+							jsoniter.Unmarshal([]byte(*json), &newObject)
+							field.Set(reflect.ValueOf(newObject).Elem().Convert(fieldType))
+						}
 					}
 				} else {
 					panic(fmt.Errorf("[parser] %v is not supported", fieldType.String()))

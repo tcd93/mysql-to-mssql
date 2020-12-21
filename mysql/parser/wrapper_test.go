@@ -105,8 +105,8 @@ type wrapperTest struct {
 	Enum   string         `gorm:"column:enum"`   // ENUM maps to a string
 	Blob   []byte         `gorm:"column:blb"`    // BLOB maps to []byte
 	Binary []byte         `gorm:"column:bnr"`    // BINARY maps to []byte
-	JSON   map[string]int `gorm:"column:json;fromjson"`
-	Array  []int          `gorm:"column:array;fromjson"`
+	JSON   map[string]int `gorm:"column:json;fromJson"`
+	Array  []int          `gorm:"column:array;fromJson"`
 }
 type updateTuple struct {
 	beforeUpdate wrapperTest
