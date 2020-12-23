@@ -15,7 +15,7 @@ const (
 
 // define a which table name maps to which data model, table name is case sensitive
 var dataModels = syncer.ModelDefinitions{
-	"staff": &StaffModel{},
+	"staff": generateStaffModel(),
 }
 
 func getMySQLConfig() parser.Config {

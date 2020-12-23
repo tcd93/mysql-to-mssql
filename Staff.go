@@ -1,18 +1,25 @@
 package main
 
-import "time"
+import (
+	"time"
 
-// StaffModel datamodel, note that fields must be public (to use with `reflect` package)
-type StaffModel struct {
-	StaffID     int       `gorm:"column:staff_id;primaryKey"`
-	FirstName   string    `gorm:"column:first_name"`
-	LastName    string    `gorm:"column:last_name"`
-	AddressID   int       `gorm:"column:address_id"`
-	Email       *string   `gorm:"column:email"`
-	Picture     *[]byte   `gorm:"column:picture"`
-	StoreID     int       `gorm:"column:store_id"`
-	Active      bool      `gorm:"column:active"`
-	UserName    *string   `gorm:"column:username"`
-	Password    *string   `gorm:"column:password"`
-	LastUpdated time.Time `gorm:"column:last_update"`
+	dynamicstruct "github.com/ompluscator/dynamic-struct"
+)
+
+// generate StaffModel datamodel dynamically in runtime, note that fields must be public (to use with `reflect` package)
+func generateStaffModel() interface{} {
+	return dynamicstruct.NewStruct().
+		AddField("StaffID", 0, `gorm:"column:staff_id;primaryKey"`).
+		AddField("FirstName", "", `gorm:"column:first_name"`).
+		AddField("LastName", "", `gorm:"column:last_name"`).
+		AddField("Email", new(string), `gorm:"column:email"`).
+		AddField("AddressID", 0, `gorm:"column:address_id"`).
+		AddField("Picture", new([]byte), `gorm:"column:picture"`).
+		AddField("StoreID", 0, `gorm:"column:store_id"`).
+		AddField("Active", false, `gorm:"column:active"`).
+		AddField("UserName", new(string), `gorm:"column:username"`).
+		AddField("Password", new(string), `gorm:"column:password"`).
+		AddField("LastUpdated", &time.Time{}, `gorm:"column:last_update"`).
+		Build().
+		New()
 }
