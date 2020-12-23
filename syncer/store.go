@@ -122,6 +122,18 @@ func (s *Store) GetAll(targetTable string, mappingModel interface{}, callback fu
 	})
 }
 
+// Size get current "sync-pending" records from local database
+func (s *Store) Size(targetTable string) (size int, err error) {
+	s.db.View(func(tx *nutsdb.Tx) error {
+		size, err = tx.LSize(bucket, []byte(targetTable))
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	return
+}
+
 // LRem remove List from left
 func (s *Store) LRem(targetTable string, count int) (err error) {
 	return s.db.Update(func(tx *nutsdb.Tx) error {

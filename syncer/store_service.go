@@ -32,8 +32,15 @@ func (s *Store) Schedule() (quit chan struct{}) {
 func (s *Store) SyncAllModels(syncer *Syncer, isTest bool) {
 
 	for table, model := range s.config.Models {
+		var size int
 		var count int64
 		var err error
+
+		size, err = s.Size(table)
+		if size == 0 {
+			continue
+		}
+
 		// TODO: make GetAll async
 		err = s.GetAll(table, model, func(rec *Record) bool {
 			if rec.Action == InsertAction {
