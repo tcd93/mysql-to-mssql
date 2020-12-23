@@ -2,6 +2,7 @@ package parser
 
 import (
 	"fmt"
+	"log"
 	"reflect"
 	"strings"
 	"time"
@@ -58,7 +59,8 @@ func getBinLogData(e *canal.RowsEvent, rowNum int, placeHolder interface{}) inte
 						}
 					}
 				} else {
-					panic(fmt.Errorf("[parser] %v is not supported", fieldType.String()))
+					log.Printf("[parser] %v is not supported", fieldType.String())
+					return nil
 				}
 			}
 		}

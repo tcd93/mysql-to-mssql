@@ -37,17 +37,22 @@ func (w *baseEventHandler) OnRow(e *cn.RowsEvent) error {
 	}
 
 	for i := n; i < len(e.Rows); i += k {
-		switch e.Action {
-		case cn.UpdateAction:
-			w.OnUpdate(e.Table.Schema, e.Table.Name, getBinLogData(e, i-1, model), getBinLogData(e, i, model))
-		case cn.InsertAction:
-			w.OnInsert(e.Table.Schema, e.Table.Name, getBinLogData(e, i, model))
-		case cn.DeleteAction:
-			w.OnDelete(e.Table.Schema, e.Table.Name, getBinLogData(e, i, model))
-		default:
-			fmt.Printf("Unknown action")
+		new := getBinLogData(e, i, model)
+		if new != nil {
+			switch e.Action {
+			case cn.UpdateAction:
+				old := getBinLogData(e, i-1, model)
+				if old != nil {
+					w.OnUpdate(e.Table.Schema, e.Table.Name, old, new)
+				}
+			case cn.InsertAction:
+				w.OnInsert(e.Table.Schema, e.Table.Name, new)
+			case cn.DeleteAction:
+				w.OnDelete(e.Table.Schema, e.Table.Name, new)
+			default:
+				fmt.Printf("Unknown action")
+			}
 		}
-
 	}
 	return nil
 }
