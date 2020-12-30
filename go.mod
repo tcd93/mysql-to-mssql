@@ -13,3 +13,5 @@ require (
 	github.com/xujiajun/nutsdb v0.5.0
 	golang.org/x/sys v0.0.0-20201214210602-f9fddec55a1e // indirect
 )
+
+replace github.com/xujiajun/nutsdb => github.com/tcd93/nutsdb v0.5.1
