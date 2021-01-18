@@ -9,6 +9,7 @@ The architecture is simple:
 **MYSQL**
 1. Set up local MYSQL instance with user **root/root**
 2. Use the `staff` table in `sakila` schema that comes with MySQL 8.0 installation package (demo db)  
+
 **MSSQL**
 1. Set up local MSSQL instance (2008+)
 2. <details>
@@ -36,6 +37,7 @@ The architecture is simple:
     ALTER TABLE [dbo].[Staff] SET (LOCK_ESCALATION = AUTO)
     ```
     </details>
+    
 **GO**
 1. Install [go 1.14 amd64](https://golang.org/dl/go1.14.12.windows-amd64.msi). **Note that this library has not work with go >=1.15 yet, and it does not support 32-bit platforms** :warning:
 2. Clone this repo to local machine, example: `d:\demo`
