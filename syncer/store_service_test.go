@@ -72,7 +72,7 @@ func TestStoreService(t *testing.T) {
 	syncer := NewSyncer(TargetDbConfig{
 		Server:   "127.0.0.1",
 		Log:      63,
-		Database: "gonnextor",
+		Database: "mysql2mssql",
 	}, 1, store)
 	setUpData(store, t)
 	defer tearDownStore(store)

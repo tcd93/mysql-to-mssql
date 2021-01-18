@@ -4,8 +4,8 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
-	"gonnextor/mysql/parser"
 	"io/ioutil"
+	"mysql2mssql/mysql/parser"
 	"time"
 
 	"github.com/siddontang/go-log/log"

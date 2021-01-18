@@ -1,8 +1,8 @@
 package main
 
 import (
-	"gonnextor/db"
-	"gonnextor/server"
+	"mysql2mssql/db"
+	"mysql2mssql/server"
 )
 
 const (

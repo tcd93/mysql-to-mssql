@@ -3,7 +3,7 @@ package syncer
 import (
 	"bytes"
 	"fmt"
-	"gonnextor/db"
+	"mysql2mssql/db"
 	"reflect"
 
 	"encoding/gob"

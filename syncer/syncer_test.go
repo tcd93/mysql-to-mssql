@@ -12,7 +12,7 @@ import (
 // Requirement:
 // 	- MSSQL (2008+) on localhost with SSO enabled
 //  - Enable TCP/IP in Configuration Manager
-// 	- Set up database named "gonnextor"
+// 	- Set up database named "mysql2mssql"
 //	- Create table [SyncerTest] as follow:
 
 // CREATE TABLE [dbo].[SyncerTest](
@@ -146,7 +146,7 @@ func TestSyncerInsertTable(t *testing.T) {
 	syncer := NewSyncer(TargetDbConfig{
 		Server:   "127.0.0.1",
 		Log:      63,
-		Database: "gonnextor",
+		Database: "mysql2mssql",
 	}, 1, nil)
 	setUp(syncer)
 	defer tearDown(syncer)
@@ -170,7 +170,7 @@ func TestSyncerUpdateTable(t *testing.T) {
 	syncer := NewSyncer(TargetDbConfig{
 		Server:   "127.0.0.1",
 		Log:      63,
-		Database: "gonnextor",
+		Database: "mysql2mssql",
 	}, 1, nil)
 	setUp(syncer)
 	defer tearDown(syncer)
@@ -204,7 +204,7 @@ func TestSyncerUpdateTableWithPK(t *testing.T) {
 	syncer := NewSyncer(TargetDbConfig{
 		Server:   "127.0.0.1",
 		Log:      63,
-		Database: "gonnextor",
+		Database: "mysql2mssql",
 	}, 1, nil)
 	setUp(syncer)
 	defer tearDown(syncer)
@@ -264,7 +264,7 @@ func TestSyncerDeleteTable(t *testing.T) {
 	syncer := NewSyncer(TargetDbConfig{
 		Server:   "127.0.0.1",
 		Log:      63,
-		Database: "gonnextor",
+		Database: "mysql2mssql",
 	}, 1, nil)
 	setUp(syncer)
 	defer tearDown(syncer)
@@ -291,7 +291,7 @@ func TestSyncerDeleteTableWithPK(t *testing.T) {
 	syncer := NewSyncer(TargetDbConfig{
 		Server:   "127.0.0.1",
 		Log:      63,
-		Database: "gonnextor",
+		Database: "mysql2mssql",
 	}, 1, nil)
 	setUp(syncer)
 	defer tearDown(syncer)
@@ -341,7 +341,7 @@ func TestSyncerInsertNullsToTable(t *testing.T) {
 	syncer := NewSyncer(TargetDbConfig{
 		Server:   "127.0.0.1",
 		Log:      63,
-		Database: "gonnextor",
+		Database: "mysql2mssql",
 	}, 1, nil)
 	setUp(syncer)
 	defer tearDown(syncer)

@@ -1,4 +1,4 @@
-module gonnextor
+module mysql2mssql
 
 go 1.14
 

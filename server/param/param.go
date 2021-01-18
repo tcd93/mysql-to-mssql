@@ -1,6 +1,6 @@
 package param
 
-import "gonnextor/db"
+import "mysql2mssql/db"
 
 type (
 	// StructRequest is the request to add/edit "Datamodels", which represent the table structure in source / target DBs

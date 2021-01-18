@@ -50,7 +50,7 @@ type UserModel struct {
 func createSyncer() *canal.Canal {
 	return NewSyncer(syncer.Config{
 		Server:   "127.0.0.1",
-		Database: "gonnextor",
+		Database: "mysql2mssql",
 		Log:      63,
 	})
 }
@@ -99,5 +99,5 @@ Array & maps are not supported
 
 ### UNIT TESTING
 1. Set up local MSSQL instance with Single-sign-on
-3. Create a database named "_gonnextor_"
+3. Create a database named "_mysql2mssql_"
 4. CD into _mssql\syncer_ & Execute `go test -v`

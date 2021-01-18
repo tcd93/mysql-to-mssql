@@ -61,7 +61,7 @@ var (
 	}`, rootPem, clientCert, clientKey)
 	storeConfigJSON = `{
 		"server": "127.0.0.1",
-		"database": "gonnextor",
+		"database": "mysql2mssql",
 		"log": 63,
 		"appname": "Postman"
 	}`

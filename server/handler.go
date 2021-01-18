@@ -1,10 +1,10 @@
 package server
 
 import (
-	"gonnextor/db"
-	"gonnextor/mysql/parser"
-	"gonnextor/server/API"
-	"gonnextor/server/param"
+	"mysql2mssql/db"
+	"mysql2mssql/mysql/parser"
+	"mysql2mssql/server/API"
+	"mysql2mssql/server/param"
 	"net/http"
 
 	validator "github.com/go-playground/validator/v10"
