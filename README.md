@@ -1,14 +1,14 @@
+# MySQL-to-MSSQL
 This is a simple server for synchronizing changes (CUD operations) from MySQL source database to MSSQL target database.   
+
 The architecture is simple:
-1. parser: listen to changes from source db
+1. parser: listen to changes from source db (via binlog)
 2. changes will be logged into an embedded database
 3. syncer: scan the log store & sync logged events to target db on a fixed interval
-#### DEMO:
-
+## DEMO:
 **MYSQL**
-1. Set up local MYSQL 8.0 instance with user **root/root**
+1. Set up local MYSQL instance with user **root/root**
 2. Use the `staff` table in `sakila` schema that comes with MySQL 8.0 installation package (demo db)  
-
 **MSSQL**
 1. Set up local MSSQL instance (2008+)
 2. <details>
@@ -124,8 +124,7 @@ The architecture is simple:
     ```
     </details>
 ##### :fire: Make changes & see sync :fire:
-
-### FAQ:
+## FAQ:
 #### 1. Why not SSIS?
 - No real time support
 - Incremental load requires something like `lastupdated` column from source table
